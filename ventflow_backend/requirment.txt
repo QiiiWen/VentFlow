@@ -1,0 +1,9 @@
+openai
+mysql-connector-python
+python.env
+python-dotenv
+flask
+flask-cors
+fastapi
+uvicorn
+

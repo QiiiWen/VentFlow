@@ -1,4 +1,0 @@
-openai
-mysql-connector-python
-python.env
-python-doptenv
