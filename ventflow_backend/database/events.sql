@@ -82,6 +82,68 @@ ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
+
+---------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('attendee','sponsor','exhibitor','speaker') NOT NULL DEFAULT 'attendee',
+  `verification_code` varchar(255) DEFAULT NULL,
+  `verified` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role`, `verification_code`, `verified`) VALUES
+(25, 'chenyee', 'pooi', 'pooichenyee@gmail.com', '$2y$10$9AN5IUJA1/pJYhoPIl56GeqBBJoBTT1VtSVLaE4iRvplic06itZnu', 'attendee', 'bc7b2d8d6ce3537e2aa19656db6de2a6', 1);
+
+
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+  
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+COMMIT;  
+SELECT * FROM users
+
+
+--------------------------------------------------------------------------------
+
+-- user_interactions.sql
+CREATE TABLE IF NOT EXISTS user_interactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    event_id INT NOT NULL,
+    click_rate INT DEFAULT 0,
+    time_spent INT DEFAULT 0,  -- Time in seconds
+    purchase BOOLEAN DEFAULT FALSE,
+    interaction_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
+
+INSERT INTO user_interactions (user_id, event_id, click_rate, time_spent, purchase)
+VALUES
+(25, 1, 5, 120, TRUE);
+
+SELECT * FROM user_interactions;
+DELETE FROM user_interactions WHERE id = 2;
+
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
